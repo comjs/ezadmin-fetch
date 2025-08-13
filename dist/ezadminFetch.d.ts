@@ -41,7 +41,7 @@ declare namespace EzadminFetch {
         interface C200 {
             page: string;
             str_category: string;
-            template: string;
+            template: 'C200';
             id: string;
             action: string;
             china_db: string;
@@ -68,8 +68,84 @@ declare namespace EzadminFetch {
             sel_sort: string;
             category: string;
         }
+        interface EL00 {
+            is_kakao: 0 | 1;
+            product_name: string;
+            options: string;
+            shop_product_options: string;
+            product_id: string;
+            shop_product_id: string;
+            /** 판매처 */
+            shop_id: number[] | '';
+            group_id: string;
+            supply_code: number;
+            status: number;
+            order_cs: number;
+            print_enable: number;
+            start_date2: string;
+            end_date2: string;
+            start_date: string;
+            start_hour: string;
+            end_date: string;
+            end_hour: string;
+            memo: string;
+            template_title: string;
+            send_yellow_id: string;
+            sender_mobile: string;
+            /** 90byte 초과시 자름 (SMS 1건만 전송) */
+            send_single: 0 | 1;
+            /** 전화번호 저장 */
+            update_sender_mobile: 0 | 1;
+            /** 금일 기발송 된 고객제외 */
+            is_today_once: 0 | 1;
+            /** 금일 기발송 된 고객제외(알림톡) */
+            is_today_once_kakao: 0 | 1;
+            /** 기발송된 주문건 제외 */
+            is_order_once: 0 | 1;
+            /** 기발송된 주문건 제외(알림톡) */
+            is_order_once_kakao: 0 | 1;
+            resend_sms: 0 | 1;
+            target_receiver: 'recv_mobile' | 'order_mobile';
+            template: 'EL00';
+            action: string;
+            str_seqs: string;
+            /** 판매처 검색제외 */
+            shop_id_not_in: 0 | 1;
+            enable_sale: 0 | 1;
+            use_temp_soldout: 0 | 1;
+            cs_content: string;
+            cs_content_null: 0 | 1;
+            date_type: 'collect_date';
+            product_date: string;
+            location: string;
+            part_deliv: 0 | 1;
+            is_packed: 0 | 1;
+            is_hold: 0 | 1;
+            is_gift: 0 | 1;
+            is_copy: 0 | 1;
+            tags_string: string;
+            labels_string: string;
+            order_label_include_type: 0 | 1;
+            product_tag_include_type: 0 | 1;
+            trans_corp: number;
+            user_area: string;
+            send_time: string;
+            s_group_id: string;
+            /** 재고 유형(0: 정상재고) */
+            stock_type: number;
+            /** 재고 수량(시작) */
+            stock_start: number | '';
+            /** 재고 수량(종료) */
+            stock_end: number | '';
+            /** 재고 상태 */
+            stock_status: number;
+            island: 0 | 1;
+            takeback_status: string;
+            delay_count: string;
+            orders_memo: string;
+        }
     }
-    type Par = Par.I100 | Par.C200;
+    type Par = Par.I100 | Par.C200 | Par.EL00;
     type Result<Template> = {
         err_prd_cnt?: string;
         is_overflow?: null;
@@ -364,5 +440,6 @@ declare class EzadminFetch {
     getAllProduct: () => Promise<EzadminFetch.Result<EzadminFetch.Template.C200>>;
     /** ## 미배송주문 조회 */
     getSoldoutOrder: (code: string) => Promise<EzadminFetch.Template.I104[]>;
+    sendSMSList: (par: EzadminFetch.Par.EL00) => Promise<void>;
 }
 export default EzadminFetch;
